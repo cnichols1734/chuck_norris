@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuck Norris Jokes API Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Courier New", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        code, pre {
+            background-color: #161b22;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: "Courier New", monospace;
+        }
+        pre {
+            padding: 1em;
+            overflow-x: auto;
+        }
+        a {
+            color: #58a6ff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-6xl mx-auto bg-[#0d1117] shadow-md rounded-lg my-8 p-8 border border-[#30363d]">
+        <h1 class="text-4xl font-bold mb-6 border-b border-[#30363d] pb-2 text-[#c9d1d9]">Chuck Norris Jokes API</h1>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Introduction</h2>
+            <p class="mb-4">
+                Welcome to the Chuck Norris Jokes API. Chuck Norris doesn't use APIs, APIs use Chuck Norris. But for the rest of us mere mortals, this service provides random Chuck Norris jokes for your applications. No authentication required (Chuck Norris doesn't believe in passwords).
+            </p>
+            <div class="bg-[#161b22] border-l-4 border-[#58a6ff] p-4 mb-4 rounded">
+                <p class="font-semibold">Warning: Chuck Norris once roundhouse kicked this API. It's been running scared ever since. Use responsibly.</p>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Base URL</h2>
+            <p class="mb-4">All API requests should be made to (if you dare):</p>
+            <pre><code>http://your-api-domain.com</code></pre>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Endpoint</h2>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-bold mb-2 text-[#c9d1d9]">GET <code>/jokes/random</code></h3>
+                <p class="mb-2">Returns a random Chuck Norris joke. Brace yourself.</p>
+
+                <h4 class="text-lg font-bold mb-1 text-[#c9d1d9]">Example Request:</h4>
+                <pre><code>GET http://your-api-domain.com/jokes/random</code></pre>
+
+                <h4 class="text-lg font-bold mb-1 mt-4 text-[#c9d1d9]">Example Response:</h4>
+                <pre><code>{
+    "id": 42,
+    "joke": "Chuck Norris can divide by zero. Twice."
+}</code></pre>
+
+                <a href="/jokes/random" class="inline-block mt-4 bg-[#238636] text-white py-2 px-4 rounded hover:bg-[#2ea043] transition duration-300">Try it out 👊</a>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Response Structure</h2>
+            <p class="mb-4">The API returns a JSON object with the following structure (Chuck Norris approved):</p>
+            <ul class="list-disc pl-6">
+                <li><strong class="text-[#c9d1d9]">id</strong> (integer): A unique identifier for the joke. Chuck Norris counted to infinity. Twice. This is how many jokes we have.</li>
+                <li><strong class="text-[#c9d1d9]">joke</strong> (string): The text of the Chuck Norris joke. May cause spontaneous roundhouse kicks.</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Rate Limits</h2>
+            <p class="mb-4">
+                To ensure fair usage (and to prevent Chuck Norris from breaking the internet), the API is limited to <strong>1 request per second</strong> (60 requests per minute) per IP address. Exceeding this limit will result in a 429 Too Many Requests response. Chuck Norris doesn't abide by rate limits, but you should.
+            </p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Error Handling</h2>
+            <p class="mb-4">The API uses conventional HTTP response codes to indicate success or failure of requests (Chuck Norris never fails, but your requests might):</p>
+            <ul class="list-disc pl-6">
+                <li><strong class="text-[#c9d1d9]">200 - OK:</strong> Request successful. Chuck Norris approves.</li>
+                <li><strong class="text-[#c9d1d9]">404 - Not Found:</strong> No jokes found in the database. Chuck Norris is momentarily speechless.</li>
+                <li><strong class="text-[#c9d1d9]">429 - Too Many Requests:</strong> Rate limit exceeded. Chuck Norris is not amused.</li>
+                <li><strong class="text-[#c9d1d9]">500 - Internal Server Error:</strong> Something went wrong on our end. Chuck Norris is coming to fix it personally.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold mb-4 text-[#c9d1d9]">Legal Disclaimer</h2>
+            <p class="text-sm mb-4">
+                This API and its creators are not affiliated with Chuck Norris or any media corporations. All mentioned brands and products are trademarks and copyrights of their respective owners. Content is for entertainment purposes only and should not be regarded as factual. Remember, Chuck Norris doesn't read disclaimers. He stares them down until they confess.
+            </p>
+        </section>
+    </div>
+
+    <footer class="max-w-6xl mx-auto px-4 py-6 text-center text-[#8b949e] text-sm">
+        <p>&copy; 2024 Chuck Norris Jokes API. All rights reserved (Chuck Norris reserves the right to roundhouse kick this copyright notice).</p>
+        <p class="mt-2">Powered by roundhouse kicks, Python, and Chuck Norris's beard.</p>
+    </footer>
+</body>
+</html>
