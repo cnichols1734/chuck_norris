@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request, render_template
+import os
+from flask import Flask, jsonify, request, render_template, url_for
 import sqlite3
 import random
 from flask_limiter import Limiter
@@ -6,24 +7,26 @@ from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 
-# Rate Limiting (i know i was getting jokes at .5 from the original one but this will be hosted on a $5 a month python anywhere account and just in case people happen to use it, I don't know if i would overload my plan lol)
+# Rate Limiting
 limiter = Limiter(
     key_func=get_remote_address,
-    app=app,
     default_limits=["60 per minute"]
 )
-
+limiter.init_app(app)
 
 def get_db_connection():
-    conn = sqlite3.connect('jokes.db')
+    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'jokes.db')
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/pretty-joke')
+def pretty_joke():
+    return render_template('pretty-joke.html')
 
 @app.route('/jokes/random', methods=['GET'])
 @limiter.limit("60 per minute")
@@ -34,6 +37,7 @@ def get_random_joke():
     total_jokes = cursor.fetchone()[0]
 
     if total_jokes == 0:
+        conn.close()
         return jsonify({'error': 'No jokes found in the database.'}), 404
 
     random_offset = random.randint(0, total_jokes - 1)
@@ -42,7 +46,6 @@ def get_random_joke():
     conn.close()
 
     return jsonify({'id': joke_row['id'], 'joke': joke_row['joke']})
-
 
 if __name__ == '__main__':
     app.run(debug=True)
