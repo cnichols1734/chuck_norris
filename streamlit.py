@@ -265,7 +265,11 @@ def analyze_logs(df):
 
         st.markdown("### Traffic Over Time")
         df_sorted = filtered_df.sort_values('datetime')
+
+        # Resample by hour using 'h' to avoid deprecation warning
         traffic_over_time = df_sorted.set_index('datetime').resample('h').size()
+
+        # Display the traffic over time chart
         st.line_chart(traffic_over_time)
 
         st.markdown("### Top Paths")
