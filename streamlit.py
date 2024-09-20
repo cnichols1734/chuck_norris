@@ -3,15 +3,25 @@ import pandas as pd
 from datetime import datetime
 import re
 import os
+import paramiko  # Import for SSH access
 
 # Additional imports
 import numpy as np
 import geoip2.database
 from user_agents import parse
-import pydeck as pdk  # New import for heatmap visualization
+import pydeck as pdk
 
 # Path to the GeoLite2 database file
 GEOIP_DATABASE = 'GeoLite2-City.mmdb'
+
+# Path to save the downloaded log file
+LOCAL_LOG_PATH = 'access_logs.txt'
+
+# SSH login credentials for PythonAnywhere
+HOST = 'ssh.pythonanywhere.com'
+USERNAME = 'cnichols1734'  # Replace with your PythonAnywhere username
+PASSWORD = 'Cassiechris177!'  # Replace with your PythonAnywhere password
+LOG_PATH = '/var/log/cnichols1734.pythonanywhere.com.access.log'  # Remote log path
 
 # Configure Streamlit page
 st.set_page_config(
@@ -19,6 +29,46 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+def get_access_logs():
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(HOST, username=USERNAME, password=PASSWORD)
+
+    sftp = ssh.open_sftp()
+    try:
+        # Download the logs as a temporary bytes object
+        with sftp.open(LOG_PATH, 'r') as remote_file:
+            new_logs = remote_file.read().decode('utf-8')  # Decode bytes to string
+
+        # Check if the local log file already exists
+        if os.path.exists(LOCAL_LOG_PATH):
+            # Read existing logs (in text mode)
+            with open(LOCAL_LOG_PATH, 'r') as local_file:
+                existing_logs = local_file.read()
+
+            # Combine existing logs with new logs (filter duplicates if necessary)
+            combined_logs = existing_logs + new_logs
+
+            # Optionally: Filter out duplicate log lines if needed
+            combined_logs = '\n'.join(sorted(set(combined_logs.splitlines())))
+
+        else:
+            # If no local log file exists, use the new logs as the base
+            combined_logs = new_logs
+
+        # Write the combined logs back to the local file
+        with open(LOCAL_LOG_PATH, 'w') as local_file:
+            local_file.write(combined_logs)
+
+        st.success(f"Logs retrieved successfully and saved to {LOCAL_LOG_PATH}")
+
+    except Exception as e:
+        st.error(f"Failed to retrieve logs: {e}")
+    finally:
+        sftp.close()
+        ssh.close()
+
 
 
 def parse_log_line(line):
@@ -331,23 +381,14 @@ def analyze_logs(df):
 def main():
     st.title("📈 PythonAnywhere Access Logs Viewer")
 
-    # Check for GeoLite2 database
-    if not os.path.exists(GEOIP_DATABASE):
-        st.error(f"❌ GeoLite2 database file '{GEOIP_DATABASE}' not found. Please download it from "
-                 f"'https://dev.maxmind.com/geoip/geolite2-free-geolocation-data' and place it in the same "
-                 f"directory as this script.")
-        return
+    # Button to fetch the latest logs
+    if st.button('Fetch Latest Logs'):
+        get_access_logs()
 
-    st.sidebar.header("Upload Logs")
-    uploaded_file = st.sidebar.file_uploader("Choose a .txt or .log file", type=["txt", "log"])
-
-    if uploaded_file is not None:
-        # Read the uploaded file
-        try:
-            content = uploaded_file.read().decode('utf-8')
-        except UnicodeDecodeError:
-            st.error("❌ Unable to decode the file. Please ensure it's a UTF-8 encoded text file.")
-            return
+    # Check if the log file exists after fetching
+    if os.path.exists(LOCAL_LOG_PATH):
+        with open(LOCAL_LOG_PATH, 'r') as log_file:
+            content = log_file.read()
 
         df = load_logs(content)
 
@@ -358,7 +399,7 @@ def main():
         else:
             st.error("❌ No valid log entries found.")
     else:
-        st.info("📂 Please upload a .txt or .log file to get started.")
+        st.info("📂 Click the button above to fetch logs from your PythonAnywhere account.")
 
 
 if __name__ == "__main__":
