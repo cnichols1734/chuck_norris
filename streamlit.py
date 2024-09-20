@@ -383,7 +383,7 @@ def analyze_logs(df):
 
 
 def main():
-    st.title("📈 PythonAnywhere Access Logs Viewer")
+    st.title("📈 cnichols1734.pythonanywhere.com Access Logs Viewer")
 
     # Button to fetch the latest logs
     if st.button('Fetch Latest Logs'):
