@@ -1,0 +1,6 @@
+streamlit==1.38.0
+pandas==2.2.2
+numpy==2.1.1
+geoip2==4.6.0
+user-agents==2.2.0
+pydeck==0.9.1
