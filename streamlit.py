@@ -19,9 +19,9 @@ LOCAL_LOG_PATH = 'access_logs.txt'
 
 # SSH login credentials for PythonAnywhere
 HOST = 'ssh.pythonanywhere.com'
-USERNAME = 'cnichols1734'  # Replace with your PythonAnywhere username
-PASSWORD = os.getenv('PA_SSH_PASSWORD')  # Replace with your PythonAnywhere password
-LOG_PATH = '/var/log/cnichols1734.pythonanywhere.com.access.log'  # Remote log path
+USERNAME = 'cnichols1734'
+PASSWORD = os.getenv('PA_SSH_PASSWORD')
+LOG_PATH = '/var/log/cnichols1734.pythonanywhere.com.access.log'
 
 # Configure Streamlit page
 st.set_page_config(
