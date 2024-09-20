@@ -25,7 +25,7 @@ LOG_PATH = '/var/log/cnichols1734.pythonanywhere.com.access.log'  # Remote log p
 
 # Configure Streamlit page
 st.set_page_config(
-    page_title="PythonAnywhere Access Logs Viewer",
+    page_title="cnichols1734.pythonanywhere.com Access Logs Viewer",
     layout="wide",
     initial_sidebar_state="expanded",
 )
